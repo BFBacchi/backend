@@ -5,7 +5,6 @@ import com.PortfolioBacchi.backend.Entity.Persona;
 import com.PortfolioBacchi.backend.Interface.IPersonaService;
 import com.PortfolioBacchi.backend.Repository.IPersonaRepository;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
