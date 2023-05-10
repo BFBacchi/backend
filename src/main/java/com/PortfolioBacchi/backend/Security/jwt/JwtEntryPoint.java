@@ -5,6 +5,7 @@
 package com.PortfolioBacchi.backend.Security.jwt;
 
 
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtEntryPoint implements AuthenticationEntryPoint{
+public  class JwtEntryPoint implements AuthenticationEntryPoint{
     private final static Logger logger = LoggerFactory.getLogger(JwtEntryPoint.class);
 
     @Override
