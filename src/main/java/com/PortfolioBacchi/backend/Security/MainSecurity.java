@@ -8,7 +8,6 @@ package com.PortfolioBacchi.backend.Security;
 import com.PortfolioBacchi.backend.Security.jwt.JwtEntryPoint;
 import com.PortfolioBacchi.backend.Security.jwt.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,12 +33,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-public class SecurityConfig {
-   private final UserDetailsService userDetailsService;
-
+public class MainSecurity {
+   
+    private final UserDetailsService userDetailsService;
+  
    private final JwtEntryPoint unauthorizedHandler;
-
+  
    private final JwtTokenFilter authenticationJwtTokenFilter;
+   
+   
+   private final String UrlMapping = "/auth/**";
 
    @Bean
    public PasswordEncoder passwordEncoder() {
@@ -57,17 +60,27 @@ public class SecurityConfig {
                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                .authorizeRequests()
-               .antMatchers(UrlMapping.AUTH + UrlMapping.SIGN_UP).permitAll()
-               .antMatchers(UrlMapping.AUTH + UrlMapping.LOGIN).permitAll()
-               .antMatchers(UrlMapping.VALIDATE_JWT).permitAll()
-               .antMatchers("/api/test/**").permitAll()
+               .requestMatchers(UrlMapping).permitAll()
                .anyRequest().authenticated();
+          
 
        http.addFilterBefore(authenticationJwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
        return http.build();
    }
-
+   
+   @Bean
+   protected void configure(HttpSecurity http) throws Exception {
+       http.cors().and().csrf().disable()
+               .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+               .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+               .authorizeRequests()
+               .requestMatchers(UrlMapping).permitAll()
+               .anyRequest().authenticated();
+   }
+   
+   
+   
    @Bean
    public WebMvcConfigurer corsConfigurer() {
        return new WebMvcConfigurer() {
